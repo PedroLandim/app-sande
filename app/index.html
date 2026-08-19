@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>GraduationHub</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+</head>
+
+
+<body>
+
+    <header>
+
+        <div class="logo">
+            GraduationHub
+        </div>
+
+        <div
+            id="user-info"
+            class="user-status hidden"
+        >
+            <span id="user-display"></span>
+
+            <button
+                class="btn-logout"
+                onclick="logout()"
+            >
+                Sair
+            </button>
+        </div>
+
+    </header>
+
+
+    <main class="container">
+
+        <!-- =========================================
+             TELA DE AUTENTICAÇÃO
+        ========================================== -->
+
+        <div
+            id="auth-screen"
+            class="auth-container"
+        >
+
+            <div class="tabs">
+
+                <button
+                    class="tab-btn active"
+                    onclick="switchTab('login')"
+                >
+                    Login
+                </button>
+
+                <button
+                    class="tab-btn"
+                    onclick="switchTab('register')"
+                >
+                    Cadastro
+                </button>
+
+            </div>
+
+
+            <!-- LOGIN -->
+
+            <form
+                id="login-form"
+                onsubmit="handleLogin(event)"
+            >
+
+                <div class="form-group">
+
+                    <label for="login-role">
+                        Perfil
+                    </label>
+
+                    <select
+                        id="login-role"
+                        onchange="toggleLoginInputs()"
+                    >
+                        <option value="student">
+                            Aluno
+                        </option>
+
+                        <option value="professor">
+                            Professor
+                        </option>
+                    </select>
+
+                </div>
+
+
+                <div
+                    class="form-group"
+                    id="login-email-group"
+                >
+
+                    <label for="login-email">
+                        E-mail do Aluno
+                    </label>
+
+                    <input
+                        type="email"
+                        id="login-email"
+                        required
+                        placeholder="aluno@universidade.edu"
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn-primary"
+                >
+                    Entrar no Sistema
+                </button>
+
+            </form>
+
+
+            <!-- CADASTRO -->
+
+            <form
+                id="register-form"
+                class="hidden"
+                onsubmit="handleRegister(event)"
+            >
+
+                <div class="form-group">
+
+                    <label for="reg-name">
+                        Nome Completo
+                    </label>
+
+                    <input
+                        type="text"
+                        id="reg-name"
+                        required
+                        placeholder="Seu nome"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="reg-email">
+                        E-mail Acadêmico
+                    </label>
+
+                    <input
+                        type="email"
+                        id="reg-email"
+                        required
+                        placeholder="aluno@universidade.edu"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="reg-id">
+                        Matrícula
+                    </label>
+
+                    <input
+                        type="text"
+                        id="reg-id"
+                        required
+                        placeholder="2023XXXXX"
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn-primary"
+                >
+                    Cadastrar Aluno
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- =========================================
+             PAINEL DO PROFESSOR
+        ========================================== -->
+
+        <section
+            id="professor-dashboard"
+            class="hidden"
+        >
+
+            <h2>
+                Painel de Gestão do Professor
+            </h2>
+
+
+            <div class="grid">
+
+
+                <!-- CRIAR ATIVIDADE -->
+
+                <div class="card">
+
+                    <h3>
+                        Criar Nova Atividade / Projeto
+                    </h3>
+
+
+                    <form
+                        onsubmit="handleCreateTask(event)"
+                    >
+
+                        <div class="form-group">
+
+                            <label for="task-title">
+                                Título
+                            </label>
+
+                            <input
+                                type="text"
+                                id="task-title"
+                                required
+                                placeholder="Ex: Projeto Final de Banco de Dados"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="task-type">
+                                Tipo
+                            </label>
+
+                            <select id="task-type">
+
+                                <option value="Atividade">
+                                    Atividade Individual
+                                </option>
+
+                                <option value="Projeto">
+                                    Projeto em Grupo
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="task-desc">
+                                Descrição
+                            </label>
+
+                            <textarea
+                                id="task-desc"
+                                rows="3"
+                                required
+                                placeholder="Instruções para os alunos..."
+                            ></textarea>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="btn-primary"
+                        >
+                            Publicar para a Turma
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+                <!-- GRUPOS -->
+
+                <div class="card">
+
+                    <h3>
+                        Grupos Formados na Turma
+                    </h3>
+
+                    <div
+                        id="professor-teams-list"
+                        class="item-list"
+                    >
+                    </div>
+
+                </div>
+
+
+                <!-- ENTREGAS -->
+
+                <div
+                    class="card card-full"
+                >
+
+                    <h3>
+                        Entregas dos Alunos / Grupos
+                    </h3>
+
+                    <div
+                        id="submissions-list"
+                        class="item-list"
+                    >
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             PAINEL DO ALUNO
+        ========================================== -->
+
+        <section
+            id="student-dashboard"
+            class="hidden"
+        >
+
+            <h2>
+                Área do Aluno
+            </h2>
+
+
+            <div class="grid">
+
+
+                <!-- GRUPO -->
+
+                <div class="card">
+
+                    <h3>
+                        Meu Grupo
+
+                        <span
+                            class="badge"
+                            id="team-size-badge"
+                        >
+                            Max 3
+                        </span>
+                    </h3>
+
+                    <div id="team-section">
+                    </div>
+
+                </div>
+
+
+                <!-- ATIVIDADES -->
+
+                <div class="card">
+
+                    <h3>
+                        Atividades & Projetos da Turma
+                    </h3>
+
+                    <div
+                        id="student-tasks-list"
+                        class="item-list"
+                    >
+                    </div>
+
+                </div>
+
+
+                <!-- ENTREGA -->
+
+                <div class="card">
+
+                    <h3>
+                        Enviar Trabalho / Atividade
+                    </h3>
+
+
+                    <form
+                        onsubmit="handleSubmitWork(event)"
+                    >
+
+                        <div class="form-group">
+
+                            <label for="submit-task-id">
+                                Selecione a Atividade
+                            </label>
+
+                            <select
+                                id="submit-task-id"
+                                required
+                            >
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="submit-link">
+                                Link do Trabalho
+                            </label>
+
+                            <input
+                                type="url"
+                                id="submit-link"
+                                required
+                                placeholder="https://github.com/... ou https://drive.google.com/..."
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="submit-notes">
+                                Observações
+                            </label>
+
+                            <textarea
+                                id="submit-notes"
+                                rows="2"
+                                placeholder="Notas adicionais..."
+                            ></textarea>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="btn-primary"
+                        >
+                            Enviar Entrega
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>
