@@ -2,7 +2,7 @@
 // CONFIGURAÇÃO
 // =========================================================
 
-const API_URL = "http://localhost:8000";
+const API_URL = "https://app-sande.onrender.com";
 
 let currentUser = null;
 
